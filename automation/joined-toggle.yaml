@@ -1,0 +1,41 @@
+blueprint:
+  name: Joined Toggle
+  description: Toggles an entity together with another entity.
+  domain: automation
+  input:
+    master_entity:
+      name: Master entity
+      description: Toggling this entity will toggle another entity.
+      selector:
+        entity:
+    entity_to_toggle:
+      name: Entity to toggle
+      description: This entity will be toggled when the master entity is toggled.
+      selector:
+        target:
+
+trigger:
+  - platform: state
+    entity_id:
+      - !input master_entity
+    id: master_toggled
+    enabled: true
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: !input master_entity
+            state: "on"
+        sequence:
+          - service: homeassistant.turn_on
+            data: {}
+            target: !input entity_to_toggle
+      - conditions:
+          - condition: state
+            entity_id: !input master_entity
+            state: "off"
+        sequence:
+          - service: homeassistant.turn_off
+            data: {}
+            target: !input entity_to_toggle

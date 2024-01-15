@@ -1,0 +1,85 @@
+blueprint:
+  name: Homematic(IP) Local two-way switch action
+  description: Runs actions when the buttons of a Homematic two-way switch (e.g. HmIP-BSM) are pressed.
+  domain: automation
+  input:
+    event_keypress_down:
+      name: Event keypress down
+      description: Event entity for the keypress of the lower button.
+      selector:
+        entity:
+          filter:
+            - domain: event
+    event_keypress_up:
+      name: Event keypress up
+      description: Event entity for the keypress of the upper button.
+      selector:
+        entity:
+          filter:
+            - domain: event
+    action_down_short:
+      name: Action down short
+      description: Action to be run when the lower button is pressed for a short time.
+      selector:
+        action:
+    action_down_long:
+      name: Action down long
+      description: Action to be run when the lower button is pressed for a long time.
+      selector:
+        action:
+    action_up_short:
+      name: Action up short
+      description: Action to be run when the upper button is pressed for a short time.
+      selector:
+        action:
+    action_up_long:
+      name: Action up long
+      description: Action to be run when the upper button is pressed for a long time.
+      selector:
+        action:
+trigger:
+  - platform: state
+    entity_id:
+      - !input event_keypress_up
+    id: up_pressed
+    enabled: true
+  - platform: state
+    entity_id:
+      - !input event_keypress_down
+    id: down_pressed
+    enabled: true
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: up_pressed
+          - condition: state
+            entity_id: !input event_keypress_up
+            attribute: event_type
+            state: press_short
+        sequence: !input action_up_short
+      - conditions:
+          - condition: trigger
+            id: up_pressed
+          - condition: state
+            entity_id: !input event_keypress_up
+            attribute: event_type
+            state: press_long_start
+        sequence: !input action_up_long
+      - conditions:
+          - condition: trigger
+            id: down_pressed
+          - condition: state
+            entity_id: !input event_keypress_down
+            attribute: event_type
+            state: press_short
+        sequence: !input action_down_short
+      - conditions:
+          - condition: trigger
+            id: down_pressed
+          - condition: state
+            entity_id: !input event_keypress_down
+            attribute: event_type
+            state: press_long_start
+        sequence: !input action_down_long

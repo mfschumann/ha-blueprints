@@ -1,0 +1,51 @@
+blueprint:
+  name: Timed Toggle
+  description: Turns an entity on when a timer is started and turns it off when a timer is stopped.
+  domain: automation
+  input:
+    timer_entity:
+      name: Timer
+      description: This timer will toggle the entity.
+      selector:
+        entity:
+          domain: timer
+    entity_to_toggle:
+      name: Entity to toggle
+      description: This entity will be toggled when the timer starts or stops.
+      selector:
+        target:
+
+trigger:
+  - platform: event
+    event_type:
+      - timer.finished
+      - timer.cancelled
+      - timer.paused
+    event_data:
+      entity_id: !input timer_entity
+    id: timer_stopped
+  - platform: event
+    event_type:
+      - timer.started
+      - timer.restarted
+    event_data:
+      entity_id: !input timer_entity
+    id: timer_started
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: timer_stopped
+        sequence:
+          - service: homeassistant.turn_off
+            data: {}
+            target: !input entity_to_toggle
+      - conditions:
+          - condition: trigger
+            id: timer_started
+        sequence:
+          - service: homeassistant.turn_on
+            data: {}
+            target: !input entity_to_toggle
+    default: []
