@@ -48,7 +48,11 @@ trigger:
       - !input event_keypress_down
     id: down_pressed
     enabled: true
-condition: []
+condition: 
+  - "{{ trigger.to_state.state != 'unknown' }}"
+  - "{{ trigger.to_state.state != 'unavailable' }}"
+  - "{{ trigger.from_state.state != 'unknown' }}"
+  - "{{ trigger.from_state.state != 'unavailable' }}"
 action:
   - choose:
       - conditions:
