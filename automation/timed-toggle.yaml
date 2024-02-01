@@ -14,7 +14,6 @@ blueprint:
       description: This entity will be toggled when the timer starts or stops.
       selector:
         target:
-
 trigger:
   - platform: event
     event_type:
