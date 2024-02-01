@@ -3,16 +3,26 @@ blueprint:
   description: Runs actions when the buttons of a Homematic two-way switch (e.g. HmIP-BSM) are pressed.
   domain: automation
   input:
-    event_keypress_down:
-      name: Event keypress down
-      description: Event entity for the keypress of the lower button.
+    event_keypress_up:
+      name: Event keypress up
+      description: Event entity for the keypress of the upper button.
       selector:
         entity:
           filter:
             - domain: event
-    event_keypress_up:
-      name: Event keypress up
-      description: Event entity for the keypress of the upper button.
+    action_up_short:
+      name: Action up short
+      description: Action to be run when the upper button is pressed for a short time.
+      selector:
+        action:
+    action_up_long:
+      name: Action up long
+      description: Action to be run when the upper button is pressed for a long time.
+      selector:
+        action:
+    event_keypress_down:
+      name: Event keypress down
+      description: Event entity for the keypress of the lower button.
       selector:
         entity:
           filter:
@@ -27,16 +37,7 @@ blueprint:
       description: Action to be run when the lower button is pressed for a long time.
       selector:
         action:
-    action_up_short:
-      name: Action up short
-      description: Action to be run when the upper button is pressed for a short time.
-      selector:
-        action:
-    action_up_long:
-      name: Action up long
-      description: Action to be run when the upper button is pressed for a long time.
-      selector:
-        action:
+
 trigger:
   - platform: state
     entity_id:
