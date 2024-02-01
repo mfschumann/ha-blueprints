@@ -1,0 +1,46 @@
+blueprint:
+  name: Homematic(IP) Local button action
+  description: Runs actions when one of the buttons of a Homematic remote control (e.g. HmIP-WRC6) is pressed.
+  domain: automation
+  input:
+    event_keypress:
+      name: Event keypress
+      description: Event entity for the keypress of the button.
+      selector:
+        entity:
+          filter:
+            - domain: event
+    action_short:
+      name: Action short
+      description: Action to be run when the button is pressed for a short time.
+      selector:
+        action:
+    action_long:
+      name: Action long
+      description: Action to be run when the button is pressed for a long time.
+      selector:
+        action:
+trigger:
+  - platform: state
+    entity_id:
+      - !input event_keypress
+    enabled: true
+condition: 
+  - "{{ trigger.to_state.state != 'unknown' }}"
+  - "{{ trigger.to_state.state != 'unavailable' }}"
+  - "{{ trigger.from_state.state != 'unknown' }}"
+  - "{{ trigger.from_state.state != 'unavailable' }}"
+action:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: !input event_keypress
+            attribute: event_type
+            state: press_short
+        sequence: !input action_short
+      - conditions:
+          - condition: state
+            entity_id: !input event_keypress
+            attribute: event_type
+            state: press_long_start
+        sequence: !input action_long
