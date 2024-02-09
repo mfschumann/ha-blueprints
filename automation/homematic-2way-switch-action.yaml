@@ -65,7 +65,10 @@ action:
             entity_id: !input event_keypress_up
             attribute: event_type
             state: press_short
-        sequence: !input action_up_short
+        sequence: 
+          - !input action_up_short
+          - delay:
+              seconds: 1
       - conditions:
           - condition: trigger
             id: up_pressed
@@ -81,7 +84,10 @@ action:
             entity_id: !input event_keypress_down
             attribute: event_type
             state: press_short
-        sequence: !input action_down_short
+        sequence: 
+          - !input action_down_short
+          - delay:
+              seconds: 1
       - conditions:
           - condition: trigger
             id: down_pressed
@@ -90,5 +96,3 @@ action:
             attribute: event_type
             state: press_long_start
         sequence: !input action_down_long
-  - delay:
-      seconds: 1
