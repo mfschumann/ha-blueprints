@@ -2,6 +2,8 @@ blueprint:
   name: Homematic(IP) Local two-way switch action
   description: Runs actions when the buttons of a Homematic two-way switch (e.g. HmIP-BSM) are pressed.
   domain: automation
+  trace:
+    stored_traces: 20
   input:
     event_keypress_up:
       name: Event keypress up

@@ -2,6 +2,8 @@ blueprint:
   name: Homematic(IP) Local button action
   description: Runs actions when one of the buttons of a Homematic remote control (e.g. HmIP-WRC6) is pressed.
   domain: automation
+  trace:
+    stored_traces: 20
   input:
     event_keypress:
       name: Event keypress
