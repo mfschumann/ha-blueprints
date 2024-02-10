@@ -13,9 +13,8 @@ blueprint:
     action_up_short:
       name: Action up short
       description: Action to be run when the upper button is pressed for a short time.
-      default: []
       selector:
-        action: {}
+        action:
     action_up_long:
       name: Action up long
       description: Action to be run when the upper button is pressed for a long time.
