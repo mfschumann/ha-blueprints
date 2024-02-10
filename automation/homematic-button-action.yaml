@@ -44,3 +44,5 @@ action:
             attribute: event_type
             state: press_long_start
         sequence: !input action_long
+trace:
+  stored_traces: 20
